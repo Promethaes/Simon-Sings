@@ -1,4 +1,5 @@
 #include "Cappuccino/Application.h"
+#include "SimonScene.h"
 
 using Application = Cappuccino::Application;
 using FontManager = Cappuccino::FontManager;
@@ -44,6 +45,9 @@ int main() {
 		Shader::setDefaultPath("./Assets/Shaders/");
 		SoundSystem::setDefaultPath("./Assets/Sounds/");
 		Texture::setDefaultPath("./Assets/Textures/");
+
+		SimonScene* s = new SimonScene(true);
+		s->init();
 
 		application->run();
 		delete application;
