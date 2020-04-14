@@ -17,10 +17,9 @@ public:
 private:
 	FMOD_3D_ATTRIBUTES _attributes = { { 0 } };
 	FMOD_3D_ATTRIBUTES _attributes2 = { { 0 } };
-	FMOD::Studio::EventInstance* eventInstance = NULL;
 	CappInput _in;
 	SoundBank master{ "Master.bank" };
 	SoundBank masterStrings{ "Master.strings.bank" };
-	SoundBank vehicles{ "Vehicles.bank" };
+	SoundBank Ghoul{ "Ghoul.bank" };
 
 };

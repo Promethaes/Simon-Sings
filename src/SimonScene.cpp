@@ -11,15 +11,16 @@ void SimonScene::childUpdate(float dt)
 	// Position the listener at the origin
 
 	if (_in.keyboard->keyPressed(KeyEvent::W))
-		_attributes.position.z += 3.0f * dt;
+		_attributes.position.x += 3.0f * dt;
 	_attributes.forward.z = -1.0f;
 	_attributes.up.y = 1.0f;
 	r = StudioSound::_system->setListenerAttributes(0, &_attributes);
 	StudioSound::checkFmodErrors(r, "attrib");
 
+	if (!Ghoul.isEventPlaying(0))
+		Ghoul.playEvent(0);
 
-	r = eventInstance->set3DAttributes(&_attributes2);
-	StudioSound::checkFmodErrors(r, "attrib");
+	Ghoul.getEvent(0)->set3DAttributes(&_attributes2);
 }
 
 bool SimonScene::init()
@@ -35,29 +36,16 @@ bool SimonScene::init()
 	_attributes2.forward.z = -1.0f;
 	_attributes2.up.y = 1.0f;
 	FMOD_RESULT r;
-	FMOD::Studio::EventDescription* eventDescription = NULL;
-	r = StudioSound::_system->getEvent("event:/Vehicles/Ride-on Mower", &eventDescription);
-	StudioSound::checkFmodErrors(r, "vehicles event desc");
-
-
-	r = eventDescription->createInstance(&eventInstance);
-	StudioSound::checkFmodErrors(r, "create instance");
-
-	r = eventInstance->setParameterByName("RPM", 650.0f);
-	StudioSound::checkFmodErrors(r, "RPM meme");
-
-	r = eventInstance->start();
-	StudioSound::checkFmodErrors(r, "starting event");
+	
+	Ghoul.addEvent("event:/Ghoul/22 spotted");
+	Ghoul.getEvent(0)->set3DAttributes(&_attributes2);
+	Ghoul.playEvent(0);
 	// Position the listener at the origin
 	FMOD_3D_ATTRIBUTES attributes = { { 0 } };
 	attributes.position.z = 3.0f;
 	attributes.forward.z = 1.0f;
 	attributes.up.y = 1.0f;
 	r = StudioSound::_system->setListenerAttributes(0, &attributes);
-
-	// Position the event 2 units in front of the listener
-	attributes.position.z = 2.0f;
-	r = eventInstance->set3DAttributes(&attributes);
 
 	return true;
 }
