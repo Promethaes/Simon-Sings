@@ -7,30 +7,28 @@ FMOD_3D_ATTRIBUTES SimonScene::_attributes2 = { { 0 } };
 SimonScene::SimonScene(bool yn)
 	:Scene(yn), _in(true, std::nullopt)
 {
+	//these numbers actually dont matter
 	sequences.push_back(new ButtonSequence({ 1,2,3,4 }));
 }
 
 void SimonScene::childUpdate(float dt)
 {
-	FMOD_RESULT r;
-	// Position the listener at the origin
 
+	// Position the listener at the origin
 	_attributes.forward.z = -1.0f;
 	_attributes.up.y = 1.0f;
+	FMOD_RESULT r;
 	r = StudioSound::_system->setListenerAttributes(0, &_attributes);
 	StudioSound::checkFmodErrors(r, "attrib");
 
-	if (!Music.isEventPlaying(0)) {//change the condition later
-
-		
-	}
-
+	//this is where the magic happens
 	sequences[0]->update(_in,Music);
 
 }
 
 bool SimonScene::init()
 {
+	//preliminary setup, and yes i know i can't spell
 	srand(time(0));
 	glm::vec3 Test;
 	Test.x = 0.0f;
@@ -44,11 +42,10 @@ bool SimonScene::init()
 	_attributes2.up.y = 1.0f;
 	FMOD_RESULT r;
 
+	//adding the proper event,neato burrito
 	Music.addEvent("event:/Fur Elise");
 	Music.getEvent(0)->set3DAttributes(&_attributes2);
 
-	//Music.getEvent(0)->setParameterByName("parameter:/note1", 1.0f);
-	//Music.playEvent(0);
 	// Position the listener at the origin
 	FMOD_3D_ATTRIBUTES attributes = { { 0 } };
 	attributes.position.z = 3.0f;
@@ -80,12 +77,13 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 	if (!lives || win)
 		return;
 
-
+	//every new iteration, we want to add another note to the sequence (kinda doesnt work as intended right now)
 	if (newIteration) {
 		
 		_sequence.clear();
 		for (unsigned i = 0; i < _iteration; i++) {
-
+			
+			//decide which direction the sound should come from
 			glm::vec3 Test;
 			Test.x = 0.0f;
 			Test.y = 0.0f;
@@ -102,25 +100,34 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 			else if (randStore == 2)
 				Test.z -= 3.0f;
 
+			//put the number into the sequence
 			_sequence.push_back(randStore);
+
+			//this print statement is a debug feature
 			std::cout << _sequence[i] << "\n";
 
+			//set the 3D attributes of the sound
 			SimonScene::_attributes2.position.x = Test.x;
 			SimonScene::_attributes2.position.y = Test.y;
 			SimonScene::_attributes2.position.z = Test.z;
 			bank.getEvent(0)->set3DAttributes(&SimonScene::_attributes2);
+
+			//set which notes to play. hopefully this code will change when i can control each individual note/phrase
 			auto param = "parameter:/note" + std::to_string(_iteration);
 			bank.getEvent(0)->setParameterByName(param.c_str(), 1.0f);
 			bank.playEvent(0);
 
 		}
 
-
+		//clear the player's input
 		inputsequence.clear();
 		inputsequence.reserve(_sequence.size());
 		newIteration = false;
 	}
 
+	//static boooooooooooooooooooooooooooooooooooooooool
+	//ive realised that this could be a function but i aint gonna recode it right now
+	//all these if else statements just control the input keys so that you dont enter 3000 W's when you wanna enter 1
 	static bool wCon(0), aCon(0), sCon(0), dCon(0);
 	//W
 	if (_in.keyboard->keyPressed(KeyEvent::W) && !wCon) {
@@ -158,9 +165,12 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 	else if (_in.keyboard->keyReleased(KeyEvent::D) && dCon)
 		dCon = false;
 
+	//if the sequence is equal and they're the same size, the player has won the round and should advance 
+	//(can prolly change this comparison around)
 	if (inputsequence == _sequence && inputsequence.size() == _sequence.size()) {
 		_iteration++;
-
+		
+		//hardcoded win condition for now
 		if (_iteration == 20) {
 			win = true;
 			printf("you win!\n");
@@ -170,6 +180,7 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 
 		newIteration = true;
 	}
+	//if the player failed the sequence, tell them they dun goofed and restart the round
 	else if (inputsequence != _sequence && inputsequence.size() == _sequence.size()) {
 		lives--;
 		if (!lives)

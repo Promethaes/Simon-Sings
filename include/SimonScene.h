@@ -10,6 +10,7 @@ public:
 	//1 is W, 2 is A, 3 is S, 4 is D
 	ButtonSequence(const std::vector<unsigned>& sequence);
 
+	//this is where all the game code is pretty much
 	void update(CappInput& _in, SoundBank& bank);
 private:
 	bool win = false;
@@ -32,7 +33,7 @@ public:
 	bool exit() override;
 
 	void mouseFunction(double xpos, double ypos) override;
-	static FMOD_3D_ATTRIBUTES _attributes2;
+	static FMOD_3D_ATTRIBUTES _attributes2;//tom fuckery
 
 private:
 	std::vector<ButtonSequence*> sequences;
