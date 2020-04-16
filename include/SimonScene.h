@@ -12,6 +12,9 @@ public:
 
 	void update(CappInput& _in);
 private:
+	bool win = false;
+	std::vector<unsigned> inputsequence;
+
 	unsigned lives = 3;
 	std::vector<unsigned> _sequence;
 	unsigned _iteration = 1;

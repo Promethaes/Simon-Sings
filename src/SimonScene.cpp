@@ -69,24 +69,34 @@ ButtonSequence::ButtonSequence(const std::vector<unsigned>& sequence)
 
 void ButtonSequence::update(CappInput& _in)
 {
-	if (!lives)
+	static bool newIteration = true;
+
+	if (!lives || win)
 		return;
-	std::vector<unsigned> subsequence;
-	subsequence.reserve(_iteration);
 
-	for (unsigned i = 0; i < _iteration; i++) {
-		subsequence.push_back(_sequence[i]);
-		std::cout << subsequence[i] << "\n";
+	static std::vector<unsigned> subsequence;
+
+	if (newIteration) {
+
+		subsequence.clear();
+		subsequence.reserve(_iteration);
+
+		for (unsigned i = 0; i < _iteration; i++) {
+			subsequence.push_back(_sequence[i]);
+			std::cout << subsequence[i] << "\n";
+		}
+
+		inputsequence.clear();
+		inputsequence.reserve(subsequence.size());
+		newIteration = false;
 	}
-
-	std::vector<unsigned> inputsequence;
-	inputsequence.reserve(subsequence.size());
 
 	static bool wCon(0), aCon(0), sCon(0), dCon(0);
 	//W
 	if (_in.keyboard->keyPressed(KeyEvent::W) && !wCon) {
 		wCon = true;
 		inputsequence.push_back(1);
+		std::cout << "ONE!\n";
 	}
 	else if (_in.keyboard->keyReleased(KeyEvent::W) && wCon)
 		wCon = false;
@@ -95,6 +105,7 @@ void ButtonSequence::update(CappInput& _in)
 	if (_in.keyboard->keyPressed(KeyEvent::S) && !sCon) {
 		sCon = true;
 		inputsequence.push_back(2);
+		std::cout << "TWO!\n";
 	}
 	else if (_in.keyboard->keyReleased(KeyEvent::S) && sCon)
 		sCon = false;
@@ -103,6 +114,7 @@ void ButtonSequence::update(CappInput& _in)
 	if (_in.keyboard->keyPressed(KeyEvent::A) && !aCon) {
 		aCon = true;
 		inputsequence.push_back(3);
+		std::cout << "THREE!\n";
 	}
 	else if (_in.keyboard->keyReleased(KeyEvent::A) && aCon)
 		aCon = false;
@@ -111,13 +123,22 @@ void ButtonSequence::update(CappInput& _in)
 	if (_in.keyboard->keyPressed(KeyEvent::D) && !dCon) {
 		dCon = true;
 		inputsequence.push_back(4);
+		std::cout << "FOUR!\n";
 	}
 	else if (_in.keyboard->keyReleased(KeyEvent::D) && dCon)
 		dCon = false;
 
 	if (inputsequence == subsequence && inputsequence.size() == subsequence.size()) {
-		printf("next round!\n\n");
 		_iteration++;
+
+		if (_iteration == _sequence.size() + 1) {
+			win = true;
+			printf("you win!\n");
+		}
+		else
+			printf("next round!\n\n");
+
+		newIteration = true;
 	}
 	else if (inputsequence != subsequence && inputsequence.size() == subsequence.size()) {
 		lives--;
