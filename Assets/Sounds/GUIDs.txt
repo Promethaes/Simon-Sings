@@ -1,0 +1,27 @@
+{f1acac29-5b38-4823-b5a2-e388de146d87} bank:/Hong
+{4188ced1-1b01-49d8-ac7d-990d714967a2} bank:/Master
+{d995ee05-6a7a-059a-2a34-13f380ba613a} bank:/Master.strings
+{e8ab5452-8922-4f8e-9dc9-579dda0aeb54} bank:/Music
+{3087a7c8-bf11-415c-aff7-d301ae6a6108} bus:/
+{b9ea5173-4990-4d53-9b08-617b4b4f37f9} bus:/Reverb
+{388e1d8d-9066-4277-b910-efd5e1b817a2} event:/Fur Elise
+{13c08d6b-2c22-4854-8ea4-e74a1da0be40} parameter:/note1
+{d612bc7f-240b-4514-9222-17bd91c7001b} parameter:/note10
+{f15f5fa0-ae75-4d47-9aeb-f697d03d1c47} parameter:/note11
+{d5a99de0-645f-4f51-9ad9-19566497c33f} parameter:/note12
+{0dff511a-e9ff-4089-86de-23e011fcc010} parameter:/note13
+{3cb70967-ee9e-4a9a-92d3-150b0bda1ebf} parameter:/note14
+{51b355a0-b641-4b55-9761-da46886097c2} parameter:/note15
+{d2449d2c-b92d-4c1c-b23f-0c9fbd4e2831} parameter:/note16
+{6e26aaf8-a6ca-4a33-a554-0ac9df1c037b} parameter:/note17
+{068d1a41-b430-4cd4-9a21-ea8db75ac5e9} parameter:/note18
+{65fec762-9a62-4e96-bb20-430e168b49fe} parameter:/note19
+{078d9ce0-ab08-432d-a1b8-3a4a8509cf55} parameter:/note2
+{b3ef1a25-a31f-416a-9cd7-18f03e1d1a9d} parameter:/note20
+{d383e63f-fe4e-4ad6-83e3-d19536f22e3a} parameter:/note3
+{474bfb02-6a9b-4ac7-8d21-fbee7042ec0b} parameter:/note4
+{4c9cd67f-bbaa-489d-9c51-e3045c074be9} parameter:/note5
+{62d88fef-398f-4a06-a513-b8e7e6b5804c} parameter:/note6
+{a52b6302-dca7-485b-8c9d-9846e6ef682a} parameter:/note7
+{8e8eefac-93aa-4c3a-8e1d-543733db43cb} parameter:/note8
+{8a6b5b71-4440-4ba9-ab60-6da2f5140b71} parameter:/note9
