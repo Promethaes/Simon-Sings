@@ -1,5 +1,8 @@
 #include "SimonScene.h"
 #include <iostream>
+#include <ctime>
+
+FMOD_3D_ATTRIBUTES SimonScene::_attributes2 = { { 0 } };
 
 SimonScene::SimonScene(bool yn)
 	:Scene(yn), _in(true, std::nullopt)
@@ -17,21 +20,22 @@ void SimonScene::childUpdate(float dt)
 	r = StudioSound::_system->setListenerAttributes(0, &_attributes);
 	StudioSound::checkFmodErrors(r, "attrib");
 
-	if (!Ghoul.isEventPlaying(0))
-		Ghoul.playEvent(0);
+	if (!Music.isEventPlaying(0)) {//change the condition later
 
-	Ghoul.getEvent(0)->set3DAttributes(&_attributes2);
+		
+	}
 
-	sequences[0]->update(_in);
+	sequences[0]->update(_in,Music);
 
 }
 
 bool SimonScene::init()
 {
+	srand(time(0));
 	glm::vec3 Test;
 	Test.x = 0.0f;
 	Test.y = 0.0f;
-	Test.z = 3.0f;
+	Test.z = 0.0f;
 
 	_attributes2.position.x = Test.x;
 	_attributes2.position.y = Test.y;
@@ -40,9 +44,11 @@ bool SimonScene::init()
 	_attributes2.up.y = 1.0f;
 	FMOD_RESULT r;
 
-	Ghoul.addEvent("event:/Ghoul/22 spotted");
-	Ghoul.getEvent(0)->set3DAttributes(&_attributes2);
-	Ghoul.playEvent(0);
+	Music.addEvent("event:/Fur Elise");
+	Music.getEvent(0)->set3DAttributes(&_attributes2);
+
+	//Music.getEvent(0)->setParameterByName("parameter:/note1", 1.0f);
+	//Music.playEvent(0);
 	// Position the listener at the origin
 	FMOD_3D_ATTRIBUTES attributes = { { 0 } };
 	attributes.position.z = 3.0f;
@@ -64,30 +70,54 @@ void SimonScene::mouseFunction(double xpos, double ypos)
 
 ButtonSequence::ButtonSequence(const std::vector<unsigned>& sequence)
 {
-	_sequence = sequence;
+	
 }
 
-void ButtonSequence::update(CappInput& _in)
+void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 {
 	static bool newIteration = true;
 
 	if (!lives || win)
 		return;
 
-	static std::vector<unsigned> subsequence;
 
 	if (newIteration) {
-
-		subsequence.clear();
-		subsequence.reserve(_iteration);
-
+		
+		_sequence.clear();
 		for (unsigned i = 0; i < _iteration; i++) {
-			subsequence.push_back(_sequence[i]);
-			std::cout << subsequence[i] << "\n";
+
+			glm::vec3 Test;
+			Test.x = 0.0f;
+			Test.y = 0.0f;
+			Test.z = 0.0f;
+
+			auto randStore = 1 + (rand() % 4);
+
+			if (randStore == 3)
+				Test.x += 3.0f;
+			else if (randStore == 4)
+				Test.x -= 3.0f;
+			else if (randStore == 1)
+				Test.z += 3.0f;
+			else if (randStore == 2)
+				Test.z -= 3.0f;
+
+			_sequence.push_back(randStore);
+			std::cout << _sequence[i] << "\n";
+
+			SimonScene::_attributes2.position.x = Test.x;
+			SimonScene::_attributes2.position.y = Test.y;
+			SimonScene::_attributes2.position.z = Test.z;
+			bank.getEvent(0)->set3DAttributes(&SimonScene::_attributes2);
+			auto param = "parameter:/note" + std::to_string(_iteration);
+			bank.getEvent(0)->setParameterByName(param.c_str(), 1.0f);
+			bank.playEvent(0);
+
 		}
 
+
 		inputsequence.clear();
-		inputsequence.reserve(subsequence.size());
+		inputsequence.reserve(_sequence.size());
 		newIteration = false;
 	}
 
@@ -128,10 +158,10 @@ void ButtonSequence::update(CappInput& _in)
 	else if (_in.keyboard->keyReleased(KeyEvent::D) && dCon)
 		dCon = false;
 
-	if (inputsequence == subsequence && inputsequence.size() == subsequence.size()) {
+	if (inputsequence == _sequence && inputsequence.size() == _sequence.size()) {
 		_iteration++;
 
-		if (_iteration == _sequence.size() + 1) {
+		if (_iteration == 20) {
 			win = true;
 			printf("you win!\n");
 		}
@@ -140,7 +170,7 @@ void ButtonSequence::update(CappInput& _in)
 
 		newIteration = true;
 	}
-	else if (inputsequence != subsequence && inputsequence.size() == subsequence.size()) {
+	else if (inputsequence != _sequence && inputsequence.size() == _sequence.size()) {
 		lives--;
 		if (!lives)
 			printf("you ran out of lives!\n");

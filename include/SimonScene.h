@@ -10,7 +10,7 @@ public:
 	//1 is W, 2 is A, 3 is S, 4 is D
 	ButtonSequence(const std::vector<unsigned>& sequence);
 
-	void update(CappInput& _in);
+	void update(CappInput& _in, SoundBank& bank);
 private:
 	bool win = false;
 	std::vector<unsigned> inputsequence;
@@ -32,14 +32,15 @@ public:
 	bool exit() override;
 
 	void mouseFunction(double xpos, double ypos) override;
+	static FMOD_3D_ATTRIBUTES _attributes2;
+
 private:
 	std::vector<ButtonSequence*> sequences;
 
 	FMOD_3D_ATTRIBUTES _attributes = { { 0 } };
-	FMOD_3D_ATTRIBUTES _attributes2 = { { 0 } };
 	CappInput _in;
 	SoundBank master{ "Master.bank" };
 	SoundBank masterStrings{ "Master.strings.bank" };
-	SoundBank Ghoul{ "Ghoul.bank" };
+	SoundBank Music{ "Music.bank" };
 
 };
