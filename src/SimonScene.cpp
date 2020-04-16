@@ -144,7 +144,10 @@ void ButtonSequence::update(CappInput& _in)
 		lives--;
 		if (!lives)
 			printf("you ran out of lives!\n");
-		printf("wrong! try again!\n");
+		else {
+			printf("wrong! try again!\n");
+			newIteration = true;
+		}
 	}
 
 
