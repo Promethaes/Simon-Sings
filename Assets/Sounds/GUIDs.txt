@@ -3,6 +3,7 @@
 {e8ab5452-8922-4f8e-9dc9-579dda0aeb54} bank:/Music
 {3087a7c8-bf11-415c-aff7-d301ae6a6108} bus:/
 {b9ea5173-4990-4d53-9b08-617b4b4f37f9} bus:/Reverb
+{ac877539-9149-4b02-a246-057910344005} event:/Canon in D
 {388e1d8d-9066-4277-b910-efd5e1b817a2} event:/Fur Elise
 {564ec695-e8ea-40ab-b77c-49cc8e143ee0} event:/Moonlight Sonata
 {13c08d6b-2c22-4854-8ea4-e74a1da0be40} parameter:/note1
