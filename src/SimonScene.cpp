@@ -22,7 +22,8 @@ void SimonScene::childUpdate(float dt)
 	StudioSound::checkFmodErrors(r, "attrib");
 
 	//this is where the magic happens
-	sequences[0]->update(_in,Music);
+	sequences[0]->update(_in, Music);
+	sequences[0]->playQueue(Music);
 
 }
 
@@ -72,7 +73,7 @@ void SimonScene::mouseFunction(double xpos, double ypos)
 
 ButtonSequence::ButtonSequence(const std::vector<unsigned>& sequence)
 {
-	
+
 }
 
 void ButtonSequence::update(CappInput& _in, SoundBank& bank)
@@ -82,14 +83,14 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 	if (!lives || win)
 		return;
 
-	std::vector<unsigned> playQ;
 
 	//every new iteration, we want to add another note to the sequence (kinda doesnt work as intended right now)
 	if (newIteration) {
-		
+		playQ.clear();
+		playedEvent.clear();
 		_sequence.clear();
 		for (unsigned i = 0; i < _iteration; i++) {
-			
+
 			//decide which direction the sound should come from
 			glm::vec3 Test;
 			Test.x = 0.0f;
@@ -120,22 +121,11 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 			bank.getEvent(i)->set3DAttributes(&SimonScene::_attributes2);
 
 			playQ.push_back(i);
+			playedEvent.push_back(0);
 
 		}
-		
-		for (unsigned i = 0; i < playQ.size(); i++) {
-			int last = i - 1;
-			if (last < 0) {
-				bank.playEvent(playQ[i]);
-				continue;
-			}
-			else if (!bank.isEventPlaying(playQ[last]))
-				bank.playEvent(playQ[i]);
-			else if (bank.isEventPlaying(playQ[last])) {
-				i--;
-				continue;
-			}
-		}
+
+
 
 		//clear the player's input
 		inputsequence.clear();
@@ -187,7 +177,7 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 	//(can prolly change this comparison around)
 	if (inputsequence == _sequence && inputsequence.size() == _sequence.size()) {
 		_iteration++;
-		
+
 		//hardcoded win condition for now
 		if (_iteration == 20) {
 			win = true;
@@ -210,5 +200,24 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 	}
 
 
+}
+
+void ButtonSequence::playQueue(SoundBank& bank)
+{
+	for (unsigned i = 0; i < playQ.size(); i++) {
+		if (i == 0) {
+			if (!bank.isEventPlaying(0) && !playedEvent[i]) {
+				bank.playEvent(i);
+				playedEvent[i] = true;
+			}
+		}
+		else if (!bank.isEventPlaying(i - 1) && !bank.isEventPlaying(i)
+			&& !playedEvent[i]) {
+			bank.playEvent(i);
+			playedEvent[i] = true;
+		}
+		else
+			continue;
+	}
 }
 

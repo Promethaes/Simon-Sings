@@ -12,7 +12,11 @@ public:
 
 	//this is where all the game code is pretty much
 	void update(CappInput& _in, SoundBank& bank);
+
+	void playQueue(SoundBank& bank);
 private:
+	std::vector<unsigned> playQ;
+	std::vector<bool> playedEvent;
 	bool win = false;
 	std::vector<unsigned> inputsequence;
 
