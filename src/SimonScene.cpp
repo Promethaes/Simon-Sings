@@ -43,7 +43,12 @@ bool SimonScene::init()
 	FMOD_RESULT r;
 
 	//adding the proper event,neato burrito
-	Music.addEvent("event:/Fur Elise");
+	Music.addEvent("event:/Moonlight Sonata 1");
+	Music.addEvent("event:/Moonlight Sonata 2");
+	Music.addEvent("event:/Moonlight Sonata 3");
+	Music.addEvent("event:/Moonlight Sonata 4");
+	Music.addEvent("event:/Moonlight Sonata 5");
+	Music.addEvent("event:/Moonlight Sonata 6");
 	Music.getEvent(0)->set3DAttributes(&_attributes2);
 
 	// Position the listener at the origin
@@ -76,6 +81,8 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 
 	if (!lives || win)
 		return;
+
+	std::vector<unsigned> playQ;
 
 	//every new iteration, we want to add another note to the sequence (kinda doesnt work as intended right now)
 	if (newIteration) {
@@ -110,13 +117,24 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 			SimonScene::_attributes2.position.x = Test.x;
 			SimonScene::_attributes2.position.y = Test.y;
 			SimonScene::_attributes2.position.z = Test.z;
-			bank.getEvent(0)->set3DAttributes(&SimonScene::_attributes2);
+			bank.getEvent(i)->set3DAttributes(&SimonScene::_attributes2);
 
-			//set which notes to play. hopefully this code will change when i can control each individual note/phrase
-			auto param = "parameter:/note" + std::to_string(_iteration);
-			bank.getEvent(0)->setParameterByName(param.c_str(), 1.0f);
-			bank.playEvent(0);
+			playQ.push_back(i);
 
+		}
+		
+		for (unsigned i = 0; i < playQ.size(); i++) {
+			int last = i - 1;
+			if (last < 0) {
+				bank.playEvent(playQ[i]);
+				continue;
+			}
+			else if (!bank.isEventPlaying(playQ[last]))
+				bank.playEvent(playQ[i]);
+			else if (bank.isEventPlaying(playQ[last])) {
+				i--;
+				continue;
+			}
 		}
 
 		//clear the player's input
