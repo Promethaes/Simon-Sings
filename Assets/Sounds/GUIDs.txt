@@ -5,7 +5,12 @@
 {b9ea5173-4990-4d53-9b08-617b4b4f37f9} bus:/Reverb
 {ac877539-9149-4b02-a246-057910344005} event:/Canon in D
 {388e1d8d-9066-4277-b910-efd5e1b817a2} event:/Fur Elise
-{564ec695-e8ea-40ab-b77c-49cc8e143ee0} event:/Moonlight Sonata
+{564ec695-e8ea-40ab-b77c-49cc8e143ee0} event:/Moonlight Sonata 1
+{75393fbe-1872-4c79-ab88-48f2060c33c7} event:/Moonlight Sonata 2
+{429001d7-c637-4414-8467-82f50ba13124} event:/Moonlight Sonata 3
+{b25e72b6-4813-43a0-933a-04d1bdb5b61b} event:/Moonlight Sonata 4
+{9aed6b34-617d-4f6c-9ccf-91f8acad530f} event:/Moonlight Sonata 5
+{70aa0a13-c212-4ef5-93e3-62a7b0e6d57e} event:/Moonlight Sonata 6
 {13c08d6b-2c22-4854-8ea4-e74a1da0be40} parameter:/note1
 {d612bc7f-240b-4514-9222-17bd91c7001b} parameter:/note10
 {f15f5fa0-ae75-4d47-9aeb-f697d03d1c47} parameter:/note11
