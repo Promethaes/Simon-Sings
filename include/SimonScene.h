@@ -8,7 +8,7 @@ using namespace Cappuccino;
 class ButtonSequence {
 public:
 	//1 is W, 2 is A, 3 is S, 4 is D
-	ButtonSequence(const std::vector<unsigned>& sequence);
+	ButtonSequence(unsigned numEvents);
 
 	//this is where all the game code is pretty much
 	void update(CappInput& _in, SoundBank& bank);
@@ -23,6 +23,7 @@ private:
 	unsigned lives = 3;
 	std::vector<unsigned> _sequence;
 	unsigned _iteration = 1;
+	unsigned _numEvents = 0;
 
 };
 

@@ -8,7 +8,7 @@ SimonScene::SimonScene(bool yn)
 	:Scene(yn), _in(true, std::nullopt)
 {
 	//these numbers actually dont matter
-	sequences.push_back(new ButtonSequence({ 1,2,3,4 }));
+	sequences.push_back(new ButtonSequence(6));
 }
 
 void SimonScene::childUpdate(float dt)
@@ -20,6 +20,8 @@ void SimonScene::childUpdate(float dt)
 	FMOD_RESULT r;
 	r = StudioSound::_system->setListenerAttributes(0, &_attributes);
 	StudioSound::checkFmodErrors(r, "attrib");
+
+	static int whichSequence = 0;
 
 	//this is where the magic happens
 	sequences[0]->update(_in, Music);
@@ -71,7 +73,8 @@ void SimonScene::mouseFunction(double xpos, double ypos)
 {
 }
 
-ButtonSequence::ButtonSequence(const std::vector<unsigned>& sequence)
+ButtonSequence::ButtonSequence(unsigned numEvents)
+	:_numEvents(numEvents)
 {
 
 }
@@ -179,7 +182,7 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 		_iteration++;
 
 		//hardcoded win condition for now
-		if (_iteration == 20) {
+		if (_iteration == _numEvents) {
 			win = true;
 			printf("you win!\n");
 		}
@@ -205,19 +208,22 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 void ButtonSequence::playQueue(SoundBank& bank)
 {
 	for (unsigned i = 0; i < playQ.size(); i++) {
-		if (i == 0) {
-			if (!bank.isEventPlaying(0) && !playedEvent[i]) {
-				bank.playEvent(i);
-				playedEvent[i] = true;
+		bool otherEventsPlaying = false;
+		for (unsigned j = 0; j < playQ.size(); j++) {
+			if (i == j)
+				continue;
+			if (bank.isEventPlaying(j)) {
+				otherEventsPlaying = true;
+				break;
 			}
 		}
-		else if (!bank.isEventPlaying(i - 1) && !bank.isEventPlaying(i)
-			&& !playedEvent[i]) {
+		if (otherEventsPlaying)
+			continue;
+		else if (!bank.isEventPlaying(i) && !playedEvent[i]) {
 			bank.playEvent(i);
 			playedEvent[i] = true;
 		}
-		else
-			continue;
+
 	}
 }
 
