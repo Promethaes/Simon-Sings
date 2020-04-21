@@ -1,0 +1,41 @@
+{4188ced1-1b01-49d8-ac7d-990d714967a2} bank:/Master
+{d995ee05-6a7a-059a-2a34-13f380ba613a} bank:/Master.strings
+{e8ab5452-8922-4f8e-9dc9-579dda0aeb54} bank:/Music
+{3087a7c8-bf11-415c-aff7-d301ae6a6108} bus:/
+{b9ea5173-4990-4d53-9b08-617b4b4f37f9} bus:/Reverb
+{ac877539-9149-4b02-a246-057910344005} event:/Canon in D 1
+{057096b2-298d-4a7d-889b-9824320ff889} event:/Canon in D 2
+{0761a48f-0f62-4da4-ad70-8157df8bbc2e} event:/Canon in D 3
+{55ea0793-84aa-4898-91bb-8baa13facfbd} event:/Canon in D 4
+{c241466d-0aec-4d3f-bfe8-a980f77fec08} event:/Canon in D 5
+{5ec1de8b-d493-4a0c-a2ac-9a1c73093a93} event:/Canon in D 6
+{c5493aad-527b-46bf-980b-6fad623f35c3} event:/Canon in D 7
+{70b198fa-2dd0-4655-ab14-a129691d0b13} event:/Canon in D 8
+{31684468-3e70-42ed-abf4-28f3a03dee98} event:/Canon in D 9
+{388e1d8d-9066-4277-b910-efd5e1b817a2} event:/Fur Elise 1
+{598c3275-b641-41ae-b2b6-fcb34b158cae} event:/Fur Elise 10
+{039bb87d-02a8-4a8e-8731-a0868da60536} event:/Fur Elise 11
+{eae77120-bf4f-4bde-8b18-4efcec772f24} event:/Fur Elise 12
+{2cfa796c-e866-4ef7-974e-298af5b42005} event:/Fur Elise 13
+{9641832e-663e-46bb-8132-ed86c6bd3b05} event:/Fur Elise 14
+{c1894b53-fb88-488e-b4ef-0af001d2394a} event:/Fur Elise 15
+{69679cd9-971d-4e89-8e97-e5b5cb3d5860} event:/Fur Elise 16
+{6aa4b11d-1ec6-434b-a2b3-2e464c99a87e} event:/Fur Elise 17
+{f5b7853b-bffa-4ba9-bba1-d9ad0e174864} event:/Fur Elise 18
+{25b5bea0-c22a-49d4-bc8a-250317b3ab8f} event:/Fur Elise 19
+{4e6841e9-1541-4da5-a934-4b7ab6f318cf} event:/Fur Elise 2
+{27746e9e-367e-4e67-ac43-8de2e70d7636} event:/Fur Elise 20
+{8cfcf4c8-4c93-4510-b0cc-4b7cd7b28c54} event:/Fur Elise 3
+{1aae1c58-4560-4c7b-99e9-d7928245fb76} event:/Fur Elise 4
+{dcd93a4b-c45c-4b90-9e47-0fe34757e4c4} event:/Fur Elise 5
+{ba7951fe-ff34-4774-a13a-fb95fcd19a97} event:/Fur Elise 6
+{056ff82f-adea-447d-8a59-8b8aba471229} event:/Fur Elise 7
+{dcba03e8-5056-4603-8f8a-d8ef97fdb5b9} event:/Fur Elise 8
+{dff6966a-1358-46df-ab54-53506ff0cbe7} event:/Fur Elise 9
+{564ec695-e8ea-40ab-b77c-49cc8e143ee0} event:/Moonlight Sonata 1
+{75393fbe-1872-4c79-ab88-48f2060c33c7} event:/Moonlight Sonata 2
+{429001d7-c637-4414-8467-82f50ba13124} event:/Moonlight Sonata 3
+{b25e72b6-4813-43a0-933a-04d1bdb5b61b} event:/Moonlight Sonata 4
+{9aed6b34-617d-4f6c-9ccf-91f8acad530f} event:/Moonlight Sonata 5
+{70aa0a13-c212-4ef5-93e3-62a7b0e6d57e} event:/Moonlight Sonata 6
+{13c08d6b-2c22-4854-8ea4-e74a1da0be40} parameter:/note1
