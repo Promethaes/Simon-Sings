@@ -14,7 +14,11 @@ public:
 	void update(CappInput& _in, SoundBank& bank);
 
 	void playQueue(SoundBank& bank);
+
+	bool isSequenceDone() { return _sequenceDone; }
 private:
+	bool _sequenceDone = false;
+
 	std::vector<unsigned> playQ;
 	std::vector<bool> playedEvent;
 	bool win = false;

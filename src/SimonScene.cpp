@@ -4,11 +4,15 @@
 
 FMOD_3D_ATTRIBUTES SimonScene::_attributes2 = { { 0 } };
 
+unsigned offset = 0;
+
 SimonScene::SimonScene(bool yn)
 	:Scene(yn), _in(true, std::nullopt)
 {
 	//these numbers actually dont matter
 	sequences.push_back(new ButtonSequence(6));
+	sequences.push_back(new ButtonSequence(9));
+	sequences.push_back(new ButtonSequence(20));
 }
 
 void SimonScene::childUpdate(float dt)
@@ -24,8 +28,14 @@ void SimonScene::childUpdate(float dt)
 	static int whichSequence = 0;
 
 	//this is where the magic happens
-	sequences[0]->update(_in, Music);
-	sequences[0]->playQueue(Music);
+	if (sequences[whichSequence]->isSequenceDone())
+		whichSequence++;
+	if (whichSequence > sequences.size() - 1)
+		printf("YOU WON!!!\n\n");
+	else {
+		sequences[whichSequence]->update(_in, Music);
+		sequences[whichSequence]->playQueue(Music);
+	}
 
 }
 
@@ -52,6 +62,35 @@ bool SimonScene::init()
 	Music.addEvent("event:/Moonlight Sonata 4");
 	Music.addEvent("event:/Moonlight Sonata 5");
 	Music.addEvent("event:/Moonlight Sonata 6");
+	Music.addEvent("event:/Canon in D 1");
+	Music.addEvent("event:/Canon in D 2");
+	Music.addEvent("event:/Canon in D 3");
+	Music.addEvent("event:/Canon in D 4");
+	Music.addEvent("event:/Canon in D 5");
+	Music.addEvent("event:/Canon in D 6");
+	Music.addEvent("event:/Canon in D 7");
+	Music.addEvent("event:/Canon in D 8");
+	Music.addEvent("event:/Canon in D 9");
+	Music.addEvent("event:/Fur Elise 1");
+	Music.addEvent("event:/Fur Elise 2");
+	Music.addEvent("event:/Fur Elise 3");
+	Music.addEvent("event:/Fur Elise 4");
+	Music.addEvent("event:/Fur Elise 5");
+	Music.addEvent("event:/Fur Elise 6");
+	Music.addEvent("event:/Fur Elise 7");
+	Music.addEvent("event:/Fur Elise 8");
+	Music.addEvent("event:/Fur Elise 9");
+	Music.addEvent("event:/Fur Elise 10");
+	Music.addEvent("event:/Fur Elise 11");
+	Music.addEvent("event:/Fur Elise 12");
+	Music.addEvent("event:/Fur Elise 13");
+	Music.addEvent("event:/Fur Elise 14");
+	Music.addEvent("event:/Fur Elise 15");
+	Music.addEvent("event:/Fur Elise 16");
+	Music.addEvent("event:/Fur Elise 17");
+	Music.addEvent("event:/Fur Elise 18");
+	Music.addEvent("event:/Fur Elise 19");
+	Music.addEvent("event:/Fur Elise 20");
 	Music.getEvent(0)->set3DAttributes(&_attributes2);
 
 	// Position the listener at the origin
@@ -121,7 +160,7 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 			SimonScene::_attributes2.position.x = Test.x;
 			SimonScene::_attributes2.position.y = Test.y;
 			SimonScene::_attributes2.position.z = Test.z;
-			bank.getEvent(i)->set3DAttributes(&SimonScene::_attributes2);
+			bank.getEvent(i + offset)->set3DAttributes(&SimonScene::_attributes2);
 
 			playQ.push_back(i);
 			playedEvent.push_back(0);
@@ -182,9 +221,11 @@ void ButtonSequence::update(CappInput& _in, SoundBank& bank)
 		_iteration++;
 
 		//hardcoded win condition for now
-		if (_iteration == _numEvents) {
+		if (_iteration == _numEvents + 1) {
 			win = true;
 			printf("you win!\n");
+			_sequenceDone = true;
+			offset += _numEvents;
 		}
 		else
 			printf("next round!\n\n");
@@ -212,15 +253,15 @@ void ButtonSequence::playQueue(SoundBank& bank)
 		for (unsigned j = 0; j < playQ.size(); j++) {
 			if (i == j)
 				continue;
-			if (bank.isEventPlaying(j)) {
+			if (bank.isEventPlaying(j + offset)) {
 				otherEventsPlaying = true;
 				break;
 			}
 		}
 		if (otherEventsPlaying)
 			continue;
-		else if (!bank.isEventPlaying(i) && !playedEvent[i]) {
-			bank.playEvent(i);
+		else if (!bank.isEventPlaying(i + offset) && !playedEvent[i]) {
+			bank.playEvent(i + offset);
 			playedEvent[i] = true;
 		}
 
